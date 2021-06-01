@@ -20,7 +20,7 @@ from datasets.Market1501 import Market1501
 from optimizer import AdamOptimWrapper
 from logger import logger
 
-
+maxI=10000
 
 def train():
     ## setup
@@ -77,12 +77,14 @@ def train():
             t_start = t_end
 
         count += 1
+        if (count%100)==0:
+          logger.info('saving trained model')
+          torch.save(net.module.state_dict(), f'./res/model{count}.pkl')
+
         if count == 25000: break
 
     ## dump model
-    logger.info('saving trained model')
-    torch.save(net.module.state_dict(), './res/model.pkl')
-
+    
     logger.info('everything finished')
 
 
